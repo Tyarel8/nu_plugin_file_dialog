@@ -1,6 +1,8 @@
+use std::path::PathBuf;
+
 use native_dialog::FileDialog;
 use nu_plugin::{serve_plugin, MsgPackSerializer, Plugin, PluginCommand, SimplePluginCommand};
-use nu_protocol::{LabeledError, Signature, SyntaxShape, Type, Value};
+use nu_protocol::{Example, LabeledError, Signature, SyntaxShape, Type, Value};
 
 struct FileDialogPlugin;
 
@@ -37,12 +39,20 @@ impl SimplePluginCommand for FileDialogCommand {
             .named(
                 "filter",
                 SyntaxShape::Record(vec![(
-                    "".to_string(),
+                    "Name".to_string(),
                     SyntaxShape::List(SyntaxShape::String.into()),
                 )]),
                 "Filters to use",
                 Some('f'),
             )
+    }
+
+    fn examples(&self) -> Vec<nu_protocol::Example> {
+        vec![Example {
+            example: "file-dialog -m -b ~/Images -f {Normal: [png, jpg], Weird: [webp]}",
+            description: "Select multiple images in the ~/Images folder",
+            result: None,
+        }]
     }
 
     fn usage(&self) -> &str {
@@ -58,10 +68,10 @@ impl SimplePluginCommand for FileDialogCommand {
     ) -> Result<nu_protocol::Value, nu_protocol::LabeledError> {
         let select_dir = call.has_flag("dir-only")?;
         let base_dir = match call.get_flag_value("base-dir") {
-            Some(Value::String { val, .. }) => Some(val),
+            Some(Value::String { val, .. }) if PathBuf::from(&val).is_dir() => Some(val),
             None => Some(engine.get_current_dir()?),
             _ => {
-                return Err(LabeledError::new("dir has an incorrect type")
+                return Err(LabeledError::new("dir has an incorrect type/path")
                     .with_label("dir has to be a directory", call.head))
             }
         };
