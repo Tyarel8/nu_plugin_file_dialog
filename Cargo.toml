@@ -1,5 +1,8 @@
 [package]
 name = "nu_plugin_file_dialog"
+repository = "https://github.com/Tyarel8/nu_plugin_file_dialog"
+description = "A simple nu plugin to select files through the native dialog."
+license = "MIT"
 version = "0.1.0"
 edition = "2021"
 
