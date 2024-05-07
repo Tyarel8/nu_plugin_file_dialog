@@ -1,0 +1,15 @@
+[package]
+name = "nu_plugin_file_dialog"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+native-dialog = "0.7.0"
+nu-plugin = "0.93.0"
+nu-protocol = "0.93.0"
+
+[target.'cfg(windows)'.dependencies]
+native-dialog = { version = "0.7.0", features = [
+  "windows_dpi_awareness",
+  "windows_visual_styles",
+] }
