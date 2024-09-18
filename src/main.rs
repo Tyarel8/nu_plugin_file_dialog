@@ -56,7 +56,7 @@ impl SimplePluginCommand for FileDialogCommand {
         }]
     }
 
-    fn usage(&self) -> &str {
+    fn description(&self) -> &str {
         "Select file(s) using the native dialog"
     }
 
