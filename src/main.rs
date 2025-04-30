@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use native_dialog::FileDialog;
+use native_dialog::DialogBuilder;
 use nu_plugin::{serve_plugin, MsgPackSerializer, Plugin, PluginCommand, SimplePluginCommand};
 use nu_protocol::{Example, LabeledError, Signature, SyntaxShape, Type, Value};
 
@@ -95,7 +95,7 @@ impl SimplePluginCommand for FileDialogCommand {
             _ => return record_error,
         };
 
-        let mut fd = FileDialog::new();
+        let mut fd = DialogBuilder::file();
 
         // Add filters
         let filter_values: Option<Vec<(String, Vec<&str>)>> = if let Some(f) = &filter {
@@ -152,7 +152,8 @@ impl SimplePluginCommand for FileDialogCommand {
             }
             (false, true) => {
                 return Ok(Value::list(
-                    fd.show_open_multiple_file()
+                    fd.open_multiple_file()
+                        .show()
                         .expect("Can't show dialog")
                         .iter()
                         .map(|p| {
@@ -168,8 +169,8 @@ impl SimplePluginCommand for FileDialogCommand {
                     call.head,
                 ))
             }
-            (true, false) => fd.show_open_single_dir().expect("Can't show dialog"),
-            (false, false) => fd.show_open_single_file().expect("Can't show dialog"),
+            (true, false) => fd.open_single_dir().show().expect("Can't show dialog"),
+            (false, false) => fd.open_single_file().show().expect("Can't show dialog"),
         };
 
         Ok(result
