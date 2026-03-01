@@ -3,16 +3,16 @@ name = "nu_plugin_file_dialog"
 repository = "https://github.com/Tyarel8/nu_plugin_file_dialog"
 description = "A simple nu plugin to select files through the native dialog."
 license = "MIT"
-version = "0.20.0"
+version = "0.21.0"
 edition = "2021"
 
 [dependencies]
-native-dialog = "0.9.4"
-nu-plugin = "0.110.0"
-nu-protocol = "0.110.0"
+native-dialog = "0.9.6"
+nu-plugin = "0.111.0"
+nu-protocol = "0.111.0"
 
 [target.'cfg(windows)'.dependencies]
-native-dialog = { version = "0.9.4", features = [
+native-dialog = { version = "0.9.6", features = [
   "windows_dpi_awareness",
   "windows_visual_styles",
 ] }
