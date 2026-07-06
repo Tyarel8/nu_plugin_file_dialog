@@ -42,7 +42,7 @@ impl SimplePluginCommand for FileDialogCommand {
             .named("title", SyntaxShape::String, "Window title", Some('t'))
             .named(
                 "filter",
-                SyntaxShape::Record(vec![]),
+                SyntaxShape::Record(vec![].into()),
                 "Filters to use",
                 Some('f'),
             )
